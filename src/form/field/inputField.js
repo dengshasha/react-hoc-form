@@ -27,7 +27,6 @@ const controlGroup = (ControlComponent) => {
                         {errorText && (
                             <div className={`${BASE_CLASS}__error`}>
                                 <p>{errorText}</p>
-                                <Icon type={'ic_txy_error'}/>
                             </div>
                         )}
                     </div>

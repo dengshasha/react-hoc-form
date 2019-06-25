@@ -1,26 +1,28 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import { InputField, Form, createForm } from './form'
+
+class Example extends React.Component {
+
+    submit =  (e) => {
+        e.preventDefault()
+        const value = this.props.form.getFormValue();
+    }
+    render() {
+        const { form } = this.props
+        console.log(form)
+        return (
+            <div>
+                <Form onSubmit={this.submit} >
+                    <InputField
+                        name={'ffff'}
+                        allowClear
+                    />
+                    <button type={'submit'}>click</button>
+                </Form>
+            </div>
+        )
+    }
 }
 
-export default App;
+export default createForm(Example)
