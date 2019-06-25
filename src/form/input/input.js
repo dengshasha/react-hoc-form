@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
-import except from '../../../tools/object/except'
+import except from '../tools/except'
 import './style.scss'
 
 const BASE_CLASS = 'm-input'
@@ -134,7 +134,7 @@ export default class Input extends React.Component {
                 {
                     allowClear && value && focus &&
                     <span className={`${BASE_CLASS}__clear`} onClick={this.clearValue}>
-                        <Icon type='ic_bestir_clear'/>
+                        X
                     </span>
                 }
             </div>

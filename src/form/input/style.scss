@@ -1,18 +1,31 @@
-@import "../../../styles/var/var";
-@import "../../../unit/input";
+.u-input {
+  background: #fff;
+  border: none;
+  border-bottom: 1px solid #E5E5E5;
+  font-size: 16px;
+  color: #333;
+  height: 40px;
+  line-height: 40px;
+  box-sizing: border-box;
+  width: 100%;
+  outline: none;
+  &-error{
+    border-color: #FF5722;
+  }
+}
 
 
 .m-input {
   &__label{
-    font-size: $v-font-small;
-    color:$v-color-gray-weak;
+    font-size: 12px;
+    color:#999;
   }
 
   //动画效果
   &.animation {
     &__label{
-      color:$v-color-gray-weak;
-      font-size: $v-font-large;
+      color:#999;
+      font-size: 16px;
       cursor:text;
       opacity: 0;
       visibility: hidden;
@@ -21,7 +34,7 @@
     }
     &.active{
       &__label{
-        font-size: $v-font-small;
+        font-size: 12px;
         opacity: 1;
         visibility: visible;
       }
@@ -31,7 +44,7 @@
   //聚焦
   &.focus {
     .u-input {
-      border-bottom: 1px solid $v-color-primary;
+      border-bottom: 1px solid #2681FF;
     }
   }
 
@@ -40,6 +53,6 @@
     position: absolute;
     right: 0;
     bottom: 10px;
-    color: $v-color-gray;
+    color: #666;
   }
 }
