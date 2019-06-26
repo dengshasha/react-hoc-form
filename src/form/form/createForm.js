@@ -15,8 +15,11 @@ const createForm = (WrapperForm) => {
         //只要用户使用了createForm方法，那么该方法会为传入的子组件绑定这些方法
         getFormProp = () => {
             return {
-                getFormValue: this.getFormValue,
-                validateForm: this.validateForm,
+                getFieldValue: this.getFieldValue, //获取某一个控件的值
+                getFieldsValue: this.getFieldsValue, //获取所有控件的值
+                validateFields: this.validateFields, //校验所有传入了validator属性的控件
+                validateField: this.validateField, //校验某一个拥有validator属性的控件
+                getFieldsStatus: this.getFieldsStatus, //获取控件的所有状态，包括错误状态，值等信息
             }
         }
 
@@ -34,11 +37,12 @@ const createForm = (WrapperForm) => {
         constructor(props) {
             super(props)
             this.state = {
-
+                isValid: true
             }
             this.fields = [];
         }
 
+        //保存所有控件
         attachToForm = (field) => {
             if (this.fields.indexOf(field) < 0) {
                 this.fields.push(field);
@@ -52,18 +56,40 @@ const createForm = (WrapperForm) => {
             }
         };
 
-        validate = (field) => {
-            const value = field.getValue()
-            const { name, validator } = field.props
-            validateTools.validateValue(validator.rules, value, (err) => {
-                this.props.onValidate && this.props.onValidate(err, value)
-                if (!('errorText' in this.props)) {
-                    this.setState({ errorText: err })
-                }
+        //校验所有传入了validator属性的控件
+        validateFields = () => {
+            let isFormValid = true
+            this.fields.forEach(field => {
+                const errorText = this.validate(field)
+                isFormValid = this.validate(field) ? false : true
             })
+            return isFormValid
         }
 
-        getFormValue = () => {
+        //校验某一个拥有validator属性的控件
+        //和传入的validator属性类似，用于自定义校验时机
+        validateField = (name) => {
+            
+        }
+
+        //校验
+        validate = (field) => {
+            const value = field.getValue()
+            const { validator } = field.props
+            if (validator && validator.rules) {
+                validateTools.validateValue(validator.rules, value, (err) => {
+                    field.setState({
+                        errorText: err
+                    })
+                    return err
+                })
+            } else {
+                return ''
+            }
+        }
+
+        //获取所有控件的值
+        getFieldsValue = () => {
             let resObj = {}
             this.fields.forEach(field => {
                 const name = field.getName()
@@ -71,6 +97,44 @@ const createForm = (WrapperForm) => {
                 resObj[name] = value
             })
             return resObj
+        }
+
+        //获取某一个控件的值
+        getFieldValue = (name) => {
+            let resObj = {}
+            const field = this.fields.find(field => field.getName() === name)
+            if (field) {
+                const value = field.getValue()
+                resObj[name] = value
+                return resObj
+            }
+            return null
+        }
+
+        //获取控件的所有状态
+        getFieldsStatus = () => {
+            const res = []
+            this.fields.forEach(field => {
+                const { name } = field.props
+                const value = field.getValue()
+                const errorText = this.validate(field)
+                if (errorText) {
+                    res.push({
+                        error: true,
+                        errorText,
+                        value,
+                        name
+                    })
+                } else {
+                    res.push({
+                        error: false,
+                        errorText: '',
+                        value,
+                        name
+                    })
+                }
+            })
+            return res
         }
 
         render() {

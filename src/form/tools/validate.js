@@ -1,6 +1,16 @@
 import { isRequired } from './method'
+import { triggerList, triggerObj } from './triggerConfig'
 
 const validate = {
+    //获取校验方式
+    getTriggerType: (trigger) => {
+        if (trigger && triggerList.includes(trigger)) {
+            return trigger;
+        } else {
+            console.warn(`不支持该触发方式: ${trigger}，请传入 blur|change`);
+            return triggerObj.TRIGGER_BLUR;
+        }
+    },
     //校验
     validateValue: (rules, value, callback) => {
         if (rules && rules.length) {
