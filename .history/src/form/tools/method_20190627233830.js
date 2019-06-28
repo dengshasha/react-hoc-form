@@ -1,20 +1,4 @@
 /**
- * @method 校验空值
- * @param {string}   value        要校验的值
- * @return {boolean}
- * */
-const isEmpty = (value) => {
-    if (value === undefined || value === null) {
-        return false;
-    }
-    if (Array.isArray(value) && value.length === 0) {
-        return false;
-    }
-    if (typeof value === 'string' && !value.trim()) {
-        return false;
-    }
-}
-/**
  * @method 校验邮箱格式
  * @param {string}   value        要校验的值
  * @return {boolean}
@@ -30,7 +14,16 @@ const isEmail = (value) => {
  * @return {boolean}
  * */
 const isRequired = (value) => {
-    return isEmpty(value)
+    if (value === undefined || value === null) {
+        return false;
+    }
+    if (Array.isArray(value) && value.length === 0) {
+        return false;
+    }
+    if (typeof value === 'string' && !value) {
+        return false;
+    }
+    return true;
 }
 /**
  * @method 校验支持中文|英文
@@ -86,10 +79,7 @@ const isOtherPhoneNum = (value) => {
  * @param {number}   max        最大长度，如果没有最大长度限制则不传入
  * @return {boolean}
  * */
-const isValidLength = (min, max) => (value) => {
-    if (isNaN(min) || isNaN(max)) { //isNaN 会先尝试将字符串转换为数字
-        throw new Error('请传入合法的参数');
-    }
+const isValidLength = (min = 0, max) => (value) => {
     if (!max) {
         return min < value.length;
     } else {
@@ -100,7 +90,6 @@ const isValidLength = (min, max) => (value) => {
 
 export {
     isRequired,
-    isEmpty,
     isChAndEn,
     isEnglish,
     isEmail,

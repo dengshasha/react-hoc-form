@@ -87,9 +87,6 @@ const isOtherPhoneNum = (value) => {
  * @return {boolean}
  * */
 const isValidLength = (min, max) => (value) => {
-    if (isNaN(min) || isNaN(max)) { //isNaN 会先尝试将字符串转换为数字
-        throw new Error('请传入合法的参数');
-    }
     if (!max) {
         return min < value.length;
     } else {
