@@ -75,12 +75,13 @@ const createForm = (WrapperForm) => {
         //校验
         validate = (field) => {
             const value = field.getValue()
-            const { validator } = field.props
+            const { validator, onValidate } = field.props
             if (validator && validator.rules) {
                 validateTools.validateValue(validator.rules, value, (err) => {
                     field.setState({
                         errorText: err
                     })
+                    onValidate && onValidate(err, value)
                     return err
                 })
             } else {

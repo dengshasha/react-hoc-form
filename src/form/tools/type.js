@@ -1,3 +1,4 @@
+import {is, isBoolean, isObject, isNumber} from './baseType'
 /**
  * @method 校验空值
  * @param {string}   value        要校验的值
@@ -13,6 +14,7 @@ const isEmpty = (value) => {
     if (typeof value === 'string' && !value.trim()) {
         return false;
     }
+    return true
 }
 /**
  * @method 校验邮箱格式
@@ -88,7 +90,17 @@ const isOtherPhoneNum = (value) => {
  * */
 const isValidLength = (min, max) => (value) => {
     if (isNaN(min) || isNaN(max)) { //isNaN 会先尝试将字符串转换为数字
-        throw new Error('请传入合法的参数');
+        throw new Error('请传入合法的最小长度或最大长度');
+    }
+    if (!value) {
+        throw new Error('请传入合法的value值');
+    }
+    if (value.length === undefined && isObject(value)) {
+        throw new Error('请传入合法的value值');
+    }
+    //数字和布尔没有长度
+    if (isNumber(value) || isBoolean(value)) {
+        value = value.toString()
     }
     if (!max) {
         return min < value.length;

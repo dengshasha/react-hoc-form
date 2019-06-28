@@ -8,10 +8,10 @@ import {
     isHKPhoneNum,
     isOtherPhoneNum,
     isValidLength
-} from '../tools/method'
+} from '../tools/type'
 
 const config = {
-    ISVALIDLENGTH_INVALID_TYPE: '请传入合法的参数'
+    ISVALIDLENGTH_INVALID_TYPE: '请传入合法的最小长度或最大长度'
 }
 
 
@@ -35,6 +35,7 @@ describe('校验方法测试', ()=> {
 
     describe('合法长度方法校验', () => {
         it('当传入最大长度和最小长度其中一个不是数字时，抛出错误', () => {
+            //第一组值传错了，导致测试用例一直跑不通
             [
                 [null, 0],
                 ['helo', true],
